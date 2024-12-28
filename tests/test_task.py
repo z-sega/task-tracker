@@ -1,14 +1,9 @@
-from task import (
-    add_task,
-    update_task,
-    delete_task,
-    filter_tasks_by_status,
-    mark_in_progress_task,
-    mark_done_task,
-    DONE,
-    IN_PROGRESS,
-    TODO,
-)
+from task import add_task, update_task, delete_task
+from task import filter_tasks_by_status
+from task import mark_in_progress_task, mark_done_task
+from task import DONE, IN_PROGRESS, TODO
+
+from utils import task_in_database
 
 EMPTY_DB = {}
 DB = {
@@ -34,14 +29,6 @@ DB = {
         "description": "shower",
     },
 }
-
-
-def task_is_entry(s, d):
-    return s == d["description"]
-
-
-def task_in_database(s, ds):
-    return any(list(map(lambda d: task_is_entry(s, d), ds.values())))
 
 
 def test_add_task():
@@ -110,5 +97,6 @@ def test_mark_done_task():
     assert updated_empty_db == {}
     assert updated_db == DB
 
+    # non-emtpy
     updated_db = mark_done_task(DB, "1")
     assert updated_db["1"]["status"] == DONE

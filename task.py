@@ -11,6 +11,9 @@ IN_PROGRESS = "in-progress"
 DONE = "done"
 ALL = "all"
 
+# display
+SPACE = " \t "
+
 
 # database management
 def load_database(path: str) -> dict[str, dict]:
@@ -90,7 +93,7 @@ def update_task(database: dict[str, dict], id: str, **kwargs) -> None:
 def filter_tasks_by_status(
     database: dict[str, dict], status: Literal["all", "done", "in-progress", "todo"] = "all"
 ) -> list[dict]:
-    "filter tasks by status"
+    "Filter tasks by STATUS"
     if status == ALL:
         return database.values()
     return list(filter(lambda t: t["status"] == status, database.values()))
@@ -108,21 +111,20 @@ def list_tasks(
 
     def print_headers():
         for h in display_headers:
-            print(h.upper(), end="\t")
+            print(h.upper(), end=SPACE)
 
         print()
 
     def print_tasks():
         def print_task(t):
             for h in display_headers:
-                print(t[h], end="\t")
+                print(t[h], end=SPACE)
 
         for task in tasks:
             print_task(task)
+            print()
 
-        print()
-
-    # print_headers()
+    print_headers()
     print_tasks()
 
 
