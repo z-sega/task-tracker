@@ -1,0 +1,23 @@
+{
+    "1": {
+        "id": 1,
+        "created": "2024-12-27T17:17:09.088805",
+        "updated": "2024-12-27T17:17:09.088805",
+        "status": "todo",
+        "description": "wake up"
+    },
+    "2": {
+        "id": 2,
+        "created": "2024-12-27T17:17:19.717839",
+        "updated": "2024-12-27T17:17:19.717839",
+        "status": "todo",
+        "description": "brush teeth"
+    },
+    "3": {
+        "id": 3,
+        "created": "2024-12-27T17:17:37.566453",
+        "updated": "2024-12-27T17:17:37.566453",
+        "status": "todo",
+        "description": "shower"
+    }
+}

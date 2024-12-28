@@ -2,7 +2,8 @@ import argparse
 
 from task import (
     load_database,
-    list_task,
+    save_database,
+    list_tasks,
     add_task,
     update_task,
     delete_task,
@@ -47,20 +48,32 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "list":
-        list_task(load_database(DATABASE_PATH), args.optional_status)
-    elif args.command == "add":
-        add_task(load_database(DATABASE_PATH), args.description)
-    elif args.command == "update":
-        update_task(load_database(DATABASE_PATH), args.id, args.description)
-    elif args.command == "delete":
-        delete_task(load_database(DATABASE_PATH), args.id)
-    elif args.command == "mark_in_progress":
-        mark_in_progress_task(load_database(DATABASE_PATH), args.id)
-    elif args.command == "mark_done":
-        mark_done_task(load_database(DATABASE_PATH), args.id)
-    else:
-        parser.print_help()
+    match args.command:
+        case "list":
+            database = load_database(DATABASE_PATH)
+            list_tasks(database, args.optional_status)
+        case "add":
+            db = load_database(DATABASE_PATH)
+            updated_db = add_task(db, args.description)
+            save_database(updated_db, DATABASE_PATH)
+        case "update":
+            database = load_database(DATABASE_PATH)
+            updated_db = update_task(database, args.id, **{"description": args.description})
+            save_database(updated_db, DATABASE_PATH)
+        case "delete":
+            database = load_database(DATABASE_PATH)
+            updated_db = delete_task(database, args.id)
+            save_database(updated_db, DATABASE_PATH)
+        case "mark_in_progress":
+            database = load_database(DATABASE_PATH)
+            updated_db = mark_in_progress_task(database, args.id)
+            save_database(updated_db, DATABASE_PATH)
+        case "mark_done":
+            database = load_database(DATABASE_PATH)
+            updated_db = mark_done_task(database, args.id)
+            save_database(updated_db, DATABASE_PATH)
+        case _:
+            parser.print_help()
 
 
 if __name__ == "__main__":
