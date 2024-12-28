@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 
 from task import (
@@ -15,7 +16,7 @@ from task import (
 
 def main():
     parser = argparse.ArgumentParser(
-        description="A simple CLI for tracking tasks.", prog="TASK-TRACKER"
+        description="A simple CLI for tracking tasks.", prog="task-cli"
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
@@ -56,6 +57,7 @@ def main():
             db = load_database(DATABASE_PATH)
             updated_db = add_task(db, args.description)
             save_database(updated_db, DATABASE_PATH)
+            print(f"Task added successfully (ID: {len(updated_db)})")
         case "update":
             database = load_database(DATABASE_PATH)
             updated_db = update_task(database, args.id, **{"description": args.description})
