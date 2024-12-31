@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, List
 import json
 
 from utils import get_current_datetime
@@ -35,18 +35,8 @@ def save_database(database: dict[str, dict], path: str) -> None:
         json.dump(database, file, indent=4)
 
 
-# query management
-# def get_supported_queries() -> dict[str, dict]:
-#     "Dict of supported queries."
-#     pass
-
-
-# def get_querie(supported_queries: dict[str, dict]) -> tuple[Callable, dict]:
-#     pass
-
-
 # task management
-def add_task(database: dict[str, dict], description: str) -> None:
+def add_task(database: dict[str, dict], description: str) -> dict[str, dict]:
     "Add task DESCRIPTION to DATABASE."
 
     def new_task(id):
@@ -68,7 +58,7 @@ def add_task(database: dict[str, dict], description: str) -> None:
         return {f"{next_id}": new_task(next_id)}
 
 
-def delete_task(database: dict[str, dict], id: str) -> None:
+def delete_task(database: dict[str, dict], id: str) -> dict[str, dict]:
     "Delete task by ID from DATABASE."
     if id in database:
         del database[f"{id}"]
@@ -76,7 +66,7 @@ def delete_task(database: dict[str, dict], id: str) -> None:
     return database
 
 
-def update_task(database: dict[str, dict], id: str, **kwargs) -> None:
+def update_task(database: dict[str, dict], id: str, **kwargs) -> dict[str, dict]:
     "Update task DESCRIPTION by ID in DATABASE."
     if id in database:
         task_data = database[f"{id}"]
@@ -92,10 +82,10 @@ def update_task(database: dict[str, dict], id: str, **kwargs) -> None:
 # filter
 def filter_tasks_by_status(
     database: dict[str, dict], status: Literal["all", "done", "in-progress", "todo"] = "all"
-) -> list[dict]:
+) -> List[dict]:
     "Filter tasks by STATUS"
     if status == ALL:
-        return database.values()
+        return list(database.values())
     return list(filter(lambda t: t["status"] == status, database.values()))
 
 
@@ -128,7 +118,7 @@ def list_tasks(
     print_tasks()
 
 
-def mark_in_progress_task(database: dict[str, dict], id: str) -> None:
+def mark_in_progress_task(database: dict[str, dict], id: str) -> dict[str, dict]:
     "Mark task by ID in DATABASE as 'in-progress'."
     if id in database:
         return update_task(
@@ -138,7 +128,7 @@ def mark_in_progress_task(database: dict[str, dict], id: str) -> None:
     return database
 
 
-def mark_done_task(database: dict[str, dict], id: str) -> None:
+def mark_done_task(database: dict[str, dict], id: str) -> dict[str, dict]:
     "Mark task by ID in DATABASE as 'done'."
     if id in database:
         return update_task(database, id, **{"status": DONE, "updated": get_current_datetime()})

@@ -1,7 +1,7 @@
 from task import add_task, update_task, delete_task
 from task import filter_tasks_by_status
 from task import mark_in_progress_task, mark_done_task
-from task import DONE, IN_PROGRESS, TODO
+from task import DONE, IN_PROGRESS, TODO, ALL
 
 from utils import task_in_database
 
@@ -72,10 +72,12 @@ def test_filter_tasks_by_status():
     expected_done = [DB["1"]]
     expected_in_progress = [DB["2"]]
     expected_todo = [DB["3"]]
+    expected_all = [DB["1"], DB["2"], DB["3"]]
 
     assert expected_done == filter_tasks_by_status(DB, DONE)
     assert expected_in_progress == filter_tasks_by_status(DB, IN_PROGRESS)
     assert expected_todo == filter_tasks_by_status(DB, TODO)
+    assert expected_all == filter_tasks_by_status(DB, ALL)
 
 
 def test_mark_in_progress_task():
